@@ -14,6 +14,8 @@ namespace konoha
         private Dir direction = Dir.Down;
         private bool isMoving = false;
 
+        public AnimatedSprite anim;
+
         public Player()
         {
         }
@@ -53,6 +55,8 @@ namespace konoha
         {
             KeyboardState kState = Keyboard.GetState();
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            anim.Update(gameTime);
 
             isMoving = false;
 

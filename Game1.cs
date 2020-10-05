@@ -71,6 +71,8 @@ namespace konoha
 
             bullet_Sprite = Content.Load<Texture2D>("misc/bullet");
             heart_Sprite = Content.Load<Texture2D>("misc/heart");
+
+            player.anim = new AnimatedSprite(playerDown, 1, 4);
         }
 
         protected override void Update(GameTime gameTime)
@@ -87,9 +89,9 @@ namespace konoha
         {
             GraphicsDevice.Clear(Color.ForestGreen);
 
-            _spriteBatch.Begin();
+            player.anim.Draw(_spriteBatch, player.Position);
 
-            _spriteBatch.Draw(player_Sprite, player.Position, Color.White);
+            _spriteBatch.Begin();
 
             _spriteBatch.End();
 
