@@ -23,6 +23,8 @@ namespace konoha
         Texture2D heart_Sprite;
         Texture2D bullet_Sprite;
 
+        Player player = new Player();
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -69,6 +71,12 @@ namespace konoha
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.ForestGreen);
+
+            _spriteBatch.Begin();
+
+            _spriteBatch.Draw(player_Sprite, player.Position, Color.White);
+
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }
