@@ -1,9 +1,15 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace konoha
 {
+    enum Dir
+    {
+        Up, Down, Left, Right
+    }
+
     public class Game1 : Game
     {
         private GraphicsDeviceManager _graphics;
@@ -24,6 +30,13 @@ namespace konoha
         Texture2D bullet_Sprite;
 
         Player player = new Player();
+
+        static void ExceptionHandler(object sender, UnhandledExceptionEventArgs args)
+        {
+            Exception e = (Exception)args.ExceptionObject;
+            Console.WriteLine("MyHandler caught : " + e.Message);
+            Console.WriteLine("Runtime terminating: {0}", args.IsTerminating);
+        }
 
         public Game1()
         {
@@ -64,6 +77,8 @@ namespace konoha
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+
+            player.Update(gameTime);
 
             base.Update(gameTime);
         }

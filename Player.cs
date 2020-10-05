@@ -11,6 +11,12 @@ namespace konoha
         private Vector2 position = new Vector2(100, 100);
         private int health = 3;
         private int speed = 200;
+        private Dir direction = Dir.Down;
+        private bool isMoving = false;
+
+        public Player()
+        {
+        }
 
         public int Health
         {
@@ -43,8 +49,58 @@ namespace konoha
             position.Y = newY;
         }
 
-        public Player()
+        public void Update(GameTime gameTime)
         {
+            KeyboardState kState = Keyboard.GetState();
+            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            isMoving = false;
+
+            if (kState.IsKeyDown(Keys.Up))
+            {
+                isMoving = true;
+                direction = Dir.Up;
+            }
+
+            if (kState.IsKeyDown(Keys.Down))
+            {
+                isMoving = true;
+                direction = Dir.Down;
+            }
+
+            if (kState.IsKeyDown(Keys.Left))
+            {
+                isMoving = true;
+                direction = Dir.Left;
+            }
+
+            if (kState.IsKeyDown(Keys.Right))
+            {
+                isMoving = true;
+                direction = Dir.Right;
+            }
+
+            if (isMoving)
+            {
+                switch (direction)
+                {
+                    case Dir.Right:
+                        position.X += speed * deltaTime;
+                        break;
+                    case Dir.Left:
+                        position.X -= speed * deltaTime;
+                        break;
+                    case Dir.Down:
+                        position.Y += speed * deltaTime;
+                        break;
+                    case Dir.Up:
+                        position.Y -= speed * deltaTime;
+                        break;
+                    default:
+                        // TODO: Add event error handling
+                        break;
+                }
+            }
         }
     }
 }
