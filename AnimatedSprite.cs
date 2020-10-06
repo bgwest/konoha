@@ -19,7 +19,6 @@ namespace konoha
             Texture = texture;
             Rows = rows;
             Columns = columns;
-            // TODO: Add ability so if player stops moving to change current frame to be standing frame
             currentFrame = 1;
             totalFrames = Rows * Columns;
             walkingSpeed = 0.15D;
