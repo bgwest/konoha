@@ -85,6 +85,11 @@ namespace konoha
 
             player.Update(gameTime);
 
+            foreach (Projectile projectile in Projectile.projectiles)
+            {
+                projectile.Update(gameTime);
+            }
+
             base.Update(gameTime);
         }
 
@@ -95,6 +100,11 @@ namespace konoha
             player.anim.Draw(_spriteBatch, new Vector2(player.Position.X - (player.playerSpriteWidth / 2), player.Position.Y - (player.playerSpriteWidth / 2)));
 
             _spriteBatch.Begin();
+
+            foreach (Projectile projectile in Projectile.projectiles)
+            {
+                _spriteBatch.Draw(bullet_Sprite, projectile.Position, Color.White);
+            }
 
             _spriteBatch.End();
 

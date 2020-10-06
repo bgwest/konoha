@@ -1,12 +1,9 @@
-﻿using System;
-
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 namespace konoha
 {
-    public class Player
+    class Player
     {
         private Vector2 position = new Vector2(100, 100);
         private int health = 3;
@@ -113,6 +110,11 @@ namespace konoha
                         // TODO: Add event error handling
                         break;
                 }
+            }
+
+            if (kState.IsKeyDown(Keys.Space))
+            {
+                Projectile.projectiles.Add(new Projectile(position, direction));
             }
         }
     }
