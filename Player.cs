@@ -15,6 +15,9 @@ namespace konoha
         private bool isMoving = false;
 
         public AnimatedSprite anim;
+        public AnimatedSprite[] animations = new AnimatedSprite[4];
+
+        public int playerSpriteWidth = 96;
 
         public Player()
         {
@@ -56,7 +59,13 @@ namespace konoha
             KeyboardState kState = Keyboard.GetState();
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            anim.Update(gameTime);
+
+            anim = animations[(int)direction];
+
+            if (isMoving)
+                anim.Update(gameTime);
+            else
+                anim.setFrame(1);
 
             isMoving = false;
 
