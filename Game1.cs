@@ -103,7 +103,7 @@ namespace konoha
 
             foreach (Projectile projectile in Projectile.projectiles)
             {
-                _spriteBatch.Draw(bullet_Sprite, projectile.Position, Color.White);
+                _spriteBatch.Draw(bullet_Sprite, new Vector2(projectile.Position.X - projectile.Radius, projectile.Position.Y - projectile.Radius), Color.White);
             }
 
             _spriteBatch.End();
