@@ -1,0 +1,110 @@
+﻿using System;
+
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+
+namespace konoha
+{
+    public class Player
+    {
+        private Vector2 position = new Vector2(100, 100);
+        private int health = 3;
+        private int speed = 200;
+        private Dir direction = Dir.Down;
+        private bool isMoving = false;
+
+        public AnimatedSprite anim;
+
+        public Player()
+        {
+        }
+
+        public int Health
+        {
+            get
+            {
+                return health;
+            }
+            set
+            {
+                health = value;
+            }
+
+        }
+
+        public Vector2 Position
+        {
+            get
+            {
+                return position;
+            }
+        }
+
+        public void setX(float newX)
+        {
+            position.X = newX;
+        }
+
+        public void setY(float newY)
+        {
+            position.Y = newY;
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            KeyboardState kState = Keyboard.GetState();
+            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            anim.Update(gameTime);
+
+            isMoving = false;
+
+            if (kState.IsKeyDown(Keys.Up))
+            {
+                isMoving = true;
+                direction = Dir.Up;
+            }
+
+            if (kState.IsKeyDown(Keys.Down))
+            {
+                isMoving = true;
+                direction = Dir.Down;
+            }
+
+            if (kState.IsKeyDown(Keys.Left))
+            {
+                isMoving = true;
+                direction = Dir.Left;
+            }
+
+            if (kState.IsKeyDown(Keys.Right))
+            {
+                isMoving = true;
+                direction = Dir.Right;
+            }
+
+            if (isMoving)
+            {
+                switch (direction)
+                {
+                    case Dir.Right:
+                        position.X += speed * deltaTime;
+                        break;
+                    case Dir.Left:
+                        position.X -= speed * deltaTime;
+                        break;
+                    case Dir.Down:
+                        position.Y += speed * deltaTime;
+                        break;
+                    case Dir.Up:
+                        position.Y -= speed * deltaTime;
+                        break;
+                    default:
+                        // TODO: Add event error handling
+                        break;
+                }
+            }
+        }
+    }
+}
