@@ -91,7 +91,8 @@ namespace konoha
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            player.Update(gameTime);
+            if (player.Health > 0)
+              player.Update(gameTime);
 
             foreach (Projectile projectile in Projectile.projectiles)
             {
@@ -117,6 +118,16 @@ namespace konoha
                 }
             }
 
+            foreach (Enemy enemy in Enemy.enemies)
+            {
+                int sum = player.HitBoxRadius + enemy.HitBoxRadius;
+                if (Vector2.Distance(player.Position, enemy.Position) < sum && player.HealthTimer <= 0)
+                {
+                    player.Health--;
+                    player.HealthTimer = 1.5f;
+                }
+            }
+
             Projectile.projectiles.RemoveAll(projectile => projectile.Collision);
             Enemy.enemies.RemoveAll(enemy => enemy.Heath == 0);
 
@@ -127,7 +138,8 @@ namespace konoha
         {
             GraphicsDevice.Clear(Color.ForestGreen);
 
-            player.anim.Draw(_spriteBatch, new Vector2(player.Position.X - (player.playerSpriteWidth / 2), player.Position.Y - (player.playerSpriteWidth / 2)));
+            if (player.Health > 0)
+              player.anim.Draw(_spriteBatch, new Vector2(player.Position.X - (player.playerSpriteWidth / 2), player.Position.Y - (player.playerSpriteWidth / 2)));
 
             _spriteBatch.Begin();
 
@@ -153,6 +165,11 @@ namespace konoha
                 }
 
                 _spriteBatch.Draw(spriteToDraw, new Vector2(enemy.Position.X - enemyImageRadiusForDrawOffset, enemy.Position.Y - enemyImageRadiusForDrawOffset), Color.White);
+            }
+
+            for (int i = 0; i < player.Health; i++)
+            {
+                _spriteBatch.Draw(heart_Sprite, new Vector2(5 + i * Heart.HeartSpriteWidth, 5), Color.White);
             }
 
             _spriteBatch.End();

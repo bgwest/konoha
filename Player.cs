@@ -11,11 +11,22 @@ namespace konoha
         private Dir direction = Dir.Down;
         private bool isMoving = false;
         private KeyboardState kStateOld = Keyboard.GetState();
+        private float healthTimer = 0f;
 
+        public int playerSpriteWidth = 96;
         public AnimatedSprite anim;
         public AnimatedSprite[] animations = new AnimatedSprite[4];
 
-        public int playerSpriteWidth = 96;
+        public float HealthTimer
+        {
+            get { return healthTimer; }
+            set { healthTimer = value; }
+        }
+
+        public int HitBoxRadius
+        {
+            get { return (playerSpriteWidth / 2) + 8; }
+        }
 
         public Player()
         {
@@ -56,6 +67,11 @@ namespace konoha
         {
             KeyboardState kState = Keyboard.GetState();
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (healthTimer > 0)
+            {
+                healthTimer -= deltaTime;
+            }
 
 
             anim = animations[(int)direction];
