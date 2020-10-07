@@ -19,7 +19,7 @@ namespace konoha
             Texture = texture;
             Rows = rows;
             Columns = columns;
-            currentFrame = 0;
+            currentFrame = 1;
             totalFrames = Rows * Columns;
             walkingSpeed = 0.15D;
             timer = walkingSpeed;
@@ -40,6 +40,11 @@ namespace konoha
 
             if (currentFrame == totalFrames)
                 currentFrame = 0;
+        }
+
+        public void setFrame(int newFrame)
+        {
+            currentFrame = newFrame;
         }
 
         public void Draw(SpriteBatch spriteBatch, Vector2 location)
