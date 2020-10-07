@@ -5,9 +5,12 @@ namespace konoha
 {
     class Enemy
     {
-        private Vector2 position;
+        private Vector2 currentEnemyPosition;
         protected int health;
-        protected int speed;
+        // when "enemySpeed" was named just "speed" (which matched the Player class)
+        // the debugger was using the Player class value for "speed"
+        // even though "speed" is a private int
+        protected int enemySpeed;
         protected int radius;
 
         public static List<Enemy> enemies = new List<Enemy>();
@@ -19,7 +22,7 @@ namespace konoha
 
         public Vector2 Position
         {
-            get { return position; }
+            get { return currentEnemyPosition; }
         }
 
         public int Radius
@@ -29,17 +32,23 @@ namespace konoha
 
         public Enemy(Vector2 newPos)
         {
-            position = newPos;
+            currentEnemyPosition = newPos;
         }
 
         public void Update(GameTime gameTime, Vector2 playerPos)
         {
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            Vector2 moveDir = playerPos - position;
-            // reduces magnitude. gets the dir we want, but with a length of 1
-            moveDir.Normalize();
-            position += moveDir * speed * deltaTime;
+            //  this vector points FROM the enemy TO the direction of the player
+            Vector2 pointEnemyToPlayer = playerPos - currentEnemyPosition;
+
+            // keeps vector direction but reduces magnitude (to length of 1 - e.g. (5,0) -> (1,0))
+            pointEnemyToPlayer.Normalize();
+
+            // finally, enemy position is increased by the normailized length
+            // delta time in debug on average is showing up as .0166667
+            // making the movent relatively small
+            currentEnemyPosition += pointEnemyToPlayer * enemySpeed * deltaTime;
         }
     }
 
@@ -48,7 +57,7 @@ namespace konoha
         public int snakeSpriteWidth = 100;
 
         public Snake(Vector2 newPos) : base(newPos) {
-            speed = 160;
+            enemySpeed = 80;
         }
 
     }
@@ -58,7 +67,7 @@ namespace konoha
         public int eyeSpriteWidth = 100;
 
         public EyeOfChalupa(Vector2 newPos) : base(newPos) {
-            speed = 80;
+            enemySpeed = 120;
         }
 
     }
