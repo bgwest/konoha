@@ -40,12 +40,16 @@ namespace konoha
 
         public Game1()
         {
-            _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            IsMouseVisible = true;
 
+            _graphics = new GraphicsDeviceManager(this);
+
+            // TODO: Solve why this isn't setting
             _graphics.PreferredBackBufferWidth = 1280;
             _graphics.PreferredBackBufferHeight = 720;
-            IsMouseVisible = true;
+            // TODO: this was a debug step and should not be needed, but also is not working
+            _graphics.ApplyChanges();
         }
 
         protected override void Initialize()
@@ -76,6 +80,10 @@ namespace konoha
             player.animations[1] = new AnimatedSprite(playerDown, 1, 4);
             player.animations[2] = new AnimatedSprite(playerLeft, 1, 4);
             player.animations[3] = new AnimatedSprite(playerRight, 1, 4);
+
+            // FOR TESTING -- NOT OK/LONG-TERM
+            Enemy.enemies.Add(new Snake(new Vector2(100, 400)));
+            Enemy.enemies.Add(new EyeOfChalupa(new Vector2(300, 450)));
         }
 
         protected override void Update(GameTime gameTime)
@@ -88,6 +96,11 @@ namespace konoha
             foreach (Projectile projectile in Projectile.projectiles)
             {
                 projectile.Update(gameTime);
+            }
+
+            foreach (Enemy enemy in Enemy.enemies)
+            {
+                enemy.Update(gameTime, player.Position);
             }
 
             base.Update(gameTime);
@@ -104,6 +117,25 @@ namespace konoha
             foreach (Projectile projectile in Projectile.projectiles)
             {
                 _spriteBatch.Draw(bullet_Sprite, new Vector2(projectile.Position.X - projectile.Radius, projectile.Position.Y - projectile.Radius), Color.White);
+            }
+
+            foreach (Enemy enemy in Enemy.enemies)
+            {
+                Texture2D spriteToDraw;
+                int enemyImageRadius;
+
+                if (enemy.GetType() == typeof(Snake))
+                {
+                    spriteToDraw = snakeEnemy_Sprite;
+                    // todo use class width / 2
+                    enemyImageRadius = 50;
+                } else
+                {
+                    spriteToDraw = eyeEnemy_Sprite;
+                    enemyImageRadius = 73;
+                }
+
+                _spriteBatch.Draw(spriteToDraw, new Vector2(enemy.Position.X - enemyImageRadius, enemy.Position.Y - enemyImageRadius), Color.White);
             }
 
             _spriteBatch.End();
