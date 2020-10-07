@@ -103,6 +103,21 @@ namespace konoha
                 enemy.Update(gameTime, player.Position);
             }
 
+            foreach (Projectile projectile in Projectile.projectiles)
+            {
+                foreach (Enemy enemy in Enemy.enemies)
+                {
+                    int sum = projectile.Radius + enemy.HitBoxRadius;
+
+                    if (Vector2.Distance(projectile.Position, enemy.Position) < sum)
+                    {
+                        projectile.Collision = true;
+                    }
+                }
+            }
+
+            Projectile.projectiles.RemoveAll(projectile => projectile.Collision);
+
             base.Update(gameTime);
         }
 
@@ -122,19 +137,20 @@ namespace konoha
             foreach (Enemy enemy in Enemy.enemies)
             {
                 Texture2D spriteToDraw;
-                int enemyImageRadius;
+                // for centering the image on draw
+                int enemyImageRadiusForDrawOffset;
 
                 if (enemy.GetType() == typeof(Snake))
                 {
                     spriteToDraw = snakeEnemy_Sprite;
-                    enemyImageRadius = Snake.SnakeSpriteWidth / 2;
+                    enemyImageRadiusForDrawOffset = Snake.SnakeSpriteWidth / 2;
                 } else
                 {
                     spriteToDraw = eyeEnemy_Sprite;
-                    enemyImageRadius = EyeOfChalupa.EyeSpritewidth / 2;
+                    enemyImageRadiusForDrawOffset = EyeOfChalupa.EyeSpritewidth / 2;
                 }
 
-                _spriteBatch.Draw(spriteToDraw, new Vector2(enemy.Position.X - enemyImageRadius, enemy.Position.Y - enemyImageRadius), Color.White);
+                _spriteBatch.Draw(spriteToDraw, new Vector2(enemy.Position.X - enemyImageRadiusForDrawOffset, enemy.Position.Y - enemyImageRadiusForDrawOffset), Color.White);
             }
 
             _spriteBatch.End();

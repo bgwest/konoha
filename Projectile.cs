@@ -9,6 +9,7 @@ namespace konoha
         private int speed = 800;
         private int radius = 15;
         private Dir direction;
+        private bool collision = false;
 
         public static List<Projectile> projectiles = new List<Projectile>();
 
@@ -16,6 +17,12 @@ namespace konoha
         {
             position = newPos;
             direction = newDir;
+        }
+
+        public bool Collision
+        {
+            get { return collision; }
+            set { collision = value; }
         }
 
         public Vector2 Position { get { return position; } }

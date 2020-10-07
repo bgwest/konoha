@@ -12,6 +12,7 @@ namespace konoha
         // even though "speed" is a private int
         protected int enemySpeed;
         protected int radius;
+        protected int hitboxRadius;
 
         public static List<Enemy> enemies = new List<Enemy>();
 
@@ -28,6 +29,11 @@ namespace konoha
         public int Radius
         {
             get { return radius; }
+        }
+
+        public int HitBoxRadius
+        {
+            get { return hitboxRadius; }
         }
 
         public Enemy(Vector2 newPos)
@@ -57,6 +63,7 @@ namespace konoha
     {
         public Snake(Vector2 newPos) : base(newPos) {
             enemySpeed = 80;
+            hitboxRadius = 42;
         }
 
         public static int SnakeSpriteWidth { get; } = 100;
@@ -67,6 +74,7 @@ namespace konoha
     {
         public EyeOfChalupa(Vector2 newPos) : base(newPos) {
             enemySpeed = 120;
+            hitboxRadius = 45;
         }
 
         public static int EyeSpritewidth { get; } = 146;
