@@ -127,12 +127,11 @@ namespace konoha
                 if (enemy.GetType() == typeof(Snake))
                 {
                     spriteToDraw = snakeEnemy_Sprite;
-                    // todo use class width / 2
-                    enemyImageRadius = 50;
+                    enemyImageRadius = Snake.SnakeSpriteWidth / 2;
                 } else
                 {
                     spriteToDraw = eyeEnemy_Sprite;
-                    enemyImageRadius = 73;
+                    enemyImageRadius = EyeOfChalupa.EyeSpritewidth / 2;
                 }
 
                 _spriteBatch.Draw(spriteToDraw, new Vector2(enemy.Position.X - enemyImageRadius, enemy.Position.Y - enemyImageRadius), Color.White);

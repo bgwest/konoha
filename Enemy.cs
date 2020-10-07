@@ -37,6 +37,7 @@ namespace konoha
 
         public void Update(GameTime gameTime, Vector2 playerPos)
         {
+            // used to guard against frame rate drops or increases 
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             //  this vector points FROM the enemy TO the direction of the player
@@ -54,21 +55,21 @@ namespace konoha
 
     class Snake : Enemy
     {
-        public int snakeSpriteWidth = 100;
-
         public Snake(Vector2 newPos) : base(newPos) {
             enemySpeed = 80;
         }
+
+        public static int SnakeSpriteWidth { get; } = 100;
 
     }
 
     class EyeOfChalupa : Enemy
     {
-        public int eyeSpriteWidth = 100;
-
         public EyeOfChalupa(Vector2 newPos) : base(newPos) {
             enemySpeed = 120;
         }
+
+        public static int EyeSpritewidth { get; } = 146;
 
     }
 }
