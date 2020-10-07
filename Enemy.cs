@@ -64,6 +64,7 @@ namespace konoha
         public Snake(Vector2 newPos) : base(newPos) {
             enemySpeed = 80;
             hitboxRadius = 42;
+            health = 3;
         }
 
         public static int SnakeSpriteWidth { get; } = 100;
@@ -75,6 +76,7 @@ namespace konoha
         public EyeOfChalupa(Vector2 newPos) : base(newPos) {
             enemySpeed = 120;
             hitboxRadius = 45;
+            health = 5;
         }
 
         public static int EyeSpritewidth { get; } = 146;

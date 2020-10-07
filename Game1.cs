@@ -112,11 +112,13 @@ namespace konoha
                     if (Vector2.Distance(projectile.Position, enemy.Position) < sum)
                     {
                         projectile.Collision = true;
+                        enemy.Heath--;
                     }
                 }
             }
 
             Projectile.projectiles.RemoveAll(projectile => projectile.Collision);
+            Enemy.enemies.RemoveAll(enemy => enemy.Heath == 0);
 
             base.Update(gameTime);
         }
