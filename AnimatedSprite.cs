@@ -57,12 +57,7 @@ namespace konoha
             Rectangle sourceRectangle = new Rectangle(width * column, height * row, width, height);
             Rectangle destinationRectangle = new Rectangle((int)location.X, (int)location.Y, width, height);
 
-            // this comment can probably be removed after I'm more of a monogame wizard
-            // but right now this is a reminder that this Begin/End call is calling the same
-            // Begin/End as in the main Game.cs Draw Method
-            spriteBatch.Begin();
             spriteBatch.Draw(Texture, destinationRectangle, sourceRectangle, Color.White);
-            spriteBatch.End();
         }
     }
 }

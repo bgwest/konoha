@@ -11,11 +11,27 @@ namespace konoha
         private Dir direction = Dir.Down;
         private bool isMoving = false;
         private KeyboardState kStateOld = Keyboard.GetState();
+        private float healthTimer = 0f;
 
+        public int playerSpriteWidth = 96;
         public AnimatedSprite anim;
         public AnimatedSprite[] animations = new AnimatedSprite[4];
 
-        public int playerSpriteWidth = 96;
+        public float HealthTimer
+        {
+            get { return healthTimer; }
+            set { healthTimer = value; }
+        }
+
+        public int HitBoxRadius
+        {
+            get { return (playerSpriteWidth / 2) + 8; }
+        }
+
+        public int Radius
+        {
+            get { return playerSpriteWidth / 2; }
+        }
 
         public Player()
         {
@@ -57,6 +73,11 @@ namespace konoha
             KeyboardState kState = Keyboard.GetState();
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
+            if (healthTimer > 0)
+            {
+                healthTimer -= deltaTime;
+            }
+
 
             anim = animations[(int)direction];
 
@@ -93,20 +114,49 @@ namespace konoha
 
             if (isMoving)
             {
+                Vector2 positionContainer = position;
+
                 switch (direction)
                 {
                     case Dir.Right:
-                        position.X += speed * deltaTime;
+                        positionContainer.X += speed * deltaTime;
+
+                        if (!Obstacle.DidCollide(positionContainer, Radius))
+                        {
+                            position.X += speed * deltaTime;
+                        }
                         break;
+
                     case Dir.Left:
-                        position.X -= speed * deltaTime;
+                        positionContainer.X -= speed * deltaTime;
+
+                        if (!Obstacle.DidCollide(positionContainer, Radius))
+                        {
+                            position.X -= speed * deltaTime;
+                        }
+
                         break;
+
                     case Dir.Down:
-                        position.Y += speed * deltaTime;
+                        positionContainer.Y += speed * deltaTime;
+
+                        if (!Obstacle.DidCollide(positionContainer, Radius))
+                        {
+                            position.Y += speed * deltaTime;
+                        }
+
                         break;
+
                     case Dir.Up:
-                        position.Y -= speed * deltaTime;
+                        positionContainer.Y -= speed * deltaTime;
+
+                        if (!Obstacle.DidCollide(positionContainer, Radius))
+                        {
+                            position.Y -= speed * deltaTime;
+                        }
+
                         break;
+
                     default:
                         // TODO: Add event error handling
                         break;

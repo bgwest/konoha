@@ -12,6 +12,7 @@ namespace konoha
         // even though "speed" is a private int
         protected int enemySpeed;
         protected int radius;
+        protected int hitboxRadius;
 
         public static List<Enemy> enemies = new List<Enemy>();
 
@@ -30,6 +31,11 @@ namespace konoha
             get { return radius; }
         }
 
+        public int HitBoxRadius
+        {
+            get { return hitboxRadius; }
+        }
+
         public Enemy(Vector2 newPos)
         {
             currentEnemyPosition = newPos;
@@ -37,6 +43,7 @@ namespace konoha
 
         public void Update(GameTime gameTime, Vector2 playerPos)
         {
+            // used to guard against frame rate drops or increases 
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             //  this vector points FROM the enemy TO the direction of the player
@@ -45,30 +52,41 @@ namespace konoha
             // keeps vector direction but reduces magnitude (to length of 1 - e.g. (5,0) -> (1,0))
             pointEnemyToPlayer.Normalize();
 
+            Vector2 positionContainer = currentEnemyPosition;
+
             // finally, enemy position is increased by the normailized length
             // delta time in debug on average is showing up as .0166667
             // making the movent relatively small
-            currentEnemyPosition += pointEnemyToPlayer * enemySpeed * deltaTime;
+            positionContainer += pointEnemyToPlayer * enemySpeed * deltaTime;
+
+            if (!Obstacle.DidCollide(positionContainer, HitBoxRadius))
+            {
+                currentEnemyPosition += pointEnemyToPlayer * enemySpeed * deltaTime;
+            }
         }
     }
 
     class Snake : Enemy
     {
-        public int snakeSpriteWidth = 100;
-
         public Snake(Vector2 newPos) : base(newPos) {
             enemySpeed = 80;
+            hitboxRadius = 42;
+            health = 3;
         }
+
+        public static int SnakeSpriteWidth { get; } = 100;
 
     }
 
     class EyeOfChalupa : Enemy
     {
-        public int eyeSpriteWidth = 100;
-
         public EyeOfChalupa(Vector2 newPos) : base(newPos) {
             enemySpeed = 120;
+            hitboxRadius = 45;
+            health = 5;
         }
+
+        public static int EyeSpritewidth { get; } = 146;
 
     }
 }
