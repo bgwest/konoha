@@ -3,6 +3,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+using MonoGame.Extended.Tiled;
+using MonoGame.Extended.Tiled.Renderers;
+
 namespace konoha
 {
     enum Dir
@@ -28,6 +31,9 @@ namespace konoha
 
         Texture2D heart_Sprite;
         Texture2D bullet_Sprite;
+
+        TiledMapRenderer mapRenderer;
+        TiledMap myMap;
 
         Player player = new Player();
 
@@ -55,6 +61,9 @@ namespace konoha
         protected override void Initialize()
         {
             base.Initialize();
+
+            mapRenderer = new TiledMapRenderer(GraphicsDevice);
+            mapRenderer.LoadMap(myMap);
         }
 
         protected override void LoadContent()
@@ -80,6 +89,8 @@ namespace konoha
             player.animations[1] = new AnimatedSprite(playerDown, 1, 4);
             player.animations[2] = new AnimatedSprite(playerLeft, 1, 4);
             player.animations[3] = new AnimatedSprite(playerRight, 1, 4);
+
+            myMap = Content.Load<TiledMap>("misc/rpgTilesMap");
 
             // FOR TESTING -- NOT OK/LONG-TERM
             Enemy.enemies.Add(new Snake(new Vector2(100, 400)));
@@ -140,12 +151,16 @@ namespace konoha
             Projectile.projectiles.RemoveAll(projectile => projectile.Collision);
             Enemy.enemies.RemoveAll(enemy => enemy.Heath == 0);
 
+            mapRenderer.Update(gameTime);
+
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.ForestGreen);
+
+            mapRenderer.Draw();
 
             if (player.Health > 0)
               player.anim.Draw(_spriteBatch, new Vector2(player.Position.X - (player.playerSpriteWidth / 2), player.Position.Y - (player.playerSpriteWidth / 2)));

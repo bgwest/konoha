@@ -10,6 +10,11 @@
 
 #-------------------------------- References --------------------------------#
 
+/reference:../../../../../.nuget/packages/monogame.extended.content.pipeline/3.8.0/tools/MonoGame.Extended.Content.Pipeline.dll
+/reference:../../../../../.nuget/packages/monogame.extended.content.pipeline/3.8.0/tools/MonoGame.Extended.Tiled.dll
+/reference:../../../../../.nuget/packages/monogame.extended.content.pipeline/3.8.0/tools/MonoGame.Extended.Graphics.dll
+/reference:../../../../../.nuget/packages/monogame.extended.content.pipeline/3.8.0/tools/MonoGame.Extended.dll
+/reference:../../../../../.nuget/packages/monogame.extended.content.pipeline/3.8.0/tools/Newtonsoft.Json.dll
 
 #---------------------------------- Content ---------------------------------#
 
@@ -60,6 +65,23 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:misc/heart.png
+
+#begin misc/rpgTiles.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:misc/rpgTiles.png
+
+#begin misc/rpgTilesMap.tmx
+/importer:
+/processor:
+/build:misc/rpgTilesMap.tmx
 
 #begin obstacles/bush.png
 /importer:TextureImporter
