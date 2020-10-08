@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+using MonoGame.Extended;
 using MonoGame.Extended.Tiled;
 using MonoGame.Extended.Tiled.Renderers;
 
@@ -35,6 +36,8 @@ namespace konoha
         TiledMapRenderer mapRenderer;
         TiledMap myMap;
 
+        OrthographicCamera cam;
+
         Player player = new Player();
 
         static void ExceptionHandler(object sender, UnhandledExceptionEventArgs args)
@@ -64,6 +67,8 @@ namespace konoha
 
             mapRenderer = new TiledMapRenderer(GraphicsDevice);
             mapRenderer.LoadMap(myMap);
+
+            cam = new OrthographicCamera(GraphicsDevice);
         }
 
         protected override void LoadContent()
@@ -108,9 +113,20 @@ namespace konoha
 
             }
 
-            // FOR TESTING -- NOT OK/LONG-TERM
-            Obstacle.obstacles.Add(new Bush(new Vector2(500, 100)));
-            Obstacle.obstacles.Add(new Tree(new Vector2(350, 230)));
+            TiledMapObject[] allObstacles = myMap.GetLayer<TiledMapObjectLayer>("obstacles").Objects;
+            foreach (TiledMapObject obstacle in allObstacles)
+            {
+                string type;
+                obstacle.Properties.TryGetValue("Type", out type);
+
+                if (type == "Tree")
+                {
+                    Obstacle.obstacles.Add(new Tree(obstacle.Position));
+                } else if (type == "Bush")
+                {
+                    Obstacle.obstacles.Add(new Bush(obstacle.Position));
+                }
+            }
         }
 
         protected override void Update(GameTime gameTime)
@@ -120,6 +136,8 @@ namespace konoha
 
             if (player.Health > 0)
               player.Update(gameTime);
+
+            cam.LookAt(player.Position);
 
             foreach (Projectile projectile in Projectile.projectiles)
             {
@@ -172,12 +190,12 @@ namespace konoha
         {
             GraphicsDevice.Clear(Color.ForestGreen);
 
-            mapRenderer.Draw();
+            mapRenderer.Draw(cam.GetViewMatrix());
+
+            _spriteBatch.Begin(transformMatrix: cam.GetViewMatrix());
 
             if (player.Health > 0)
-              player.anim.Draw(_spriteBatch, new Vector2(player.Position.X - (player.playerSpriteWidth / 2), player.Position.Y - (player.playerSpriteWidth / 2)));
-
-            _spriteBatch.Begin();
+                player.anim.Draw(_spriteBatch, new Vector2(player.Position.X - (player.playerSpriteWidth / 2), player.Position.Y - (player.playerSpriteWidth / 2)));
 
             foreach (Projectile projectile in Projectile.projectiles)
             {
@@ -216,6 +234,11 @@ namespace konoha
 
                 _spriteBatch.Draw(enemySprite, new Vector2(enemy.Position.X - enemyImageRadiusForDrawOffset, enemy.Position.Y - enemyImageRadiusForDrawOffset), Color.White);
             }
+
+            _spriteBatch.End();
+
+
+            _spriteBatch.Begin();
 
             for (int i = 0; i < player.Health; i++)
             {
