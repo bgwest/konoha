@@ -84,6 +84,10 @@ namespace konoha
             // FOR TESTING -- NOT OK/LONG-TERM
             Enemy.enemies.Add(new Snake(new Vector2(100, 400)));
             Enemy.enemies.Add(new EyeOfChalupa(new Vector2(300, 450)));
+
+            // FOR TESTING -- NOT OK/LONG-TERM
+            Obstacle.obstacles.Add(new Bush(new Vector2(500, 100)));
+            Obstacle.obstacles.Add(new Tree(new Vector2(300, 230)));
         }
 
         protected override void Update(GameTime gameTime)
@@ -115,6 +119,11 @@ namespace konoha
                         projectile.Collision = true;
                         enemy.Heath--;
                     }
+                }
+
+                if (Obstacle.DidCollide(projectile.Position, projectile.Radius))
+                {
+                    projectile.Collision = true;
                 }
             }
 
@@ -148,23 +157,37 @@ namespace konoha
                 _spriteBatch.Draw(bullet_Sprite, new Vector2(projectile.Position.X - projectile.Radius, projectile.Position.Y - projectile.Radius), Color.White);
             }
 
+            foreach (Obstacle obstacle in Obstacle.obstacles)
+            {
+                Texture2D obstacleSprite;
+
+                if (obstacle.GetType() == typeof(Tree))
+                    obstacleSprite = tree_Sprite;
+                else
+                    obstacleSprite = bush_Sprite;
+
+                // note: notice how it's being drawn at the top left corner with no offset
+                _spriteBatch.Draw(obstacleSprite, obstacle.Position, Color.White);
+            }
+
             foreach (Enemy enemy in Enemy.enemies)
             {
-                Texture2D spriteToDraw;
+                Texture2D enemySprite;
+
                 // for centering the image on draw
                 int enemyImageRadiusForDrawOffset;
 
                 if (enemy.GetType() == typeof(Snake))
                 {
-                    spriteToDraw = snakeEnemy_Sprite;
+                    enemySprite = snakeEnemy_Sprite;
                     enemyImageRadiusForDrawOffset = Snake.SnakeSpriteWidth / 2;
                 } else
                 {
-                    spriteToDraw = eyeEnemy_Sprite;
+                    enemySprite = eyeEnemy_Sprite;
                     enemyImageRadiusForDrawOffset = EyeOfChalupa.EyeSpritewidth / 2;
                 }
 
-                _spriteBatch.Draw(spriteToDraw, new Vector2(enemy.Position.X - enemyImageRadiusForDrawOffset, enemy.Position.Y - enemyImageRadiusForDrawOffset), Color.White);
+                _spriteBatch.Draw(enemySprite, new Vector2(enemy.Position.X - enemyImageRadiusForDrawOffset, enemy.Position.Y - enemyImageRadiusForDrawOffset), Color.White);
             }
 
             for (int i = 0; i < player.Health; i++)

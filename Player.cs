@@ -28,6 +28,11 @@ namespace konoha
             get { return (playerSpriteWidth / 2) + 8; }
         }
 
+        public int Radius
+        {
+            get { return playerSpriteWidth / 2; }
+        }
+
         public Player()
         {
         }
@@ -109,20 +114,49 @@ namespace konoha
 
             if (isMoving)
             {
+                Vector2 positionContainer = position;
+
                 switch (direction)
                 {
                     case Dir.Right:
-                        position.X += speed * deltaTime;
+                        positionContainer.X += speed * deltaTime;
+
+                        if (!Obstacle.DidCollide(positionContainer, Radius))
+                        {
+                            position.X += speed * deltaTime;
+                        }
                         break;
+
                     case Dir.Left:
-                        position.X -= speed * deltaTime;
+                        positionContainer.X -= speed * deltaTime;
+
+                        if (!Obstacle.DidCollide(positionContainer, Radius))
+                        {
+                            position.X -= speed * deltaTime;
+                        }
+
                         break;
+
                     case Dir.Down:
-                        position.Y += speed * deltaTime;
+                        positionContainer.Y += speed * deltaTime;
+
+                        if (!Obstacle.DidCollide(positionContainer, Radius))
+                        {
+                            position.Y += speed * deltaTime;
+                        }
+
                         break;
+
                     case Dir.Up:
-                        position.Y -= speed * deltaTime;
+                        positionContainer.Y -= speed * deltaTime;
+
+                        if (!Obstacle.DidCollide(positionContainer, Radius))
+                        {
+                            position.Y -= speed * deltaTime;
+                        }
+
                         break;
+
                     default:
                         // TODO: Add event error handling
                         break;

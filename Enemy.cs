@@ -52,10 +52,17 @@ namespace konoha
             // keeps vector direction but reduces magnitude (to length of 1 - e.g. (5,0) -> (1,0))
             pointEnemyToPlayer.Normalize();
 
+            Vector2 positionContainer = currentEnemyPosition;
+
             // finally, enemy position is increased by the normailized length
             // delta time in debug on average is showing up as .0166667
             // making the movent relatively small
-            currentEnemyPosition += pointEnemyToPlayer * enemySpeed * deltaTime;
+            positionContainer += pointEnemyToPlayer * enemySpeed * deltaTime;
+
+            if (!Obstacle.DidCollide(positionContainer, HitBoxRadius))
+            {
+                currentEnemyPosition += pointEnemyToPlayer * enemySpeed * deltaTime;
+            }
         }
     }
 
