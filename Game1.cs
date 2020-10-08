@@ -92,13 +92,25 @@ namespace konoha
 
             myMap = Content.Load<TiledMap>("misc/rpgTilesMap");
 
-            // FOR TESTING -- NOT OK/LONG-TERM
-            Enemy.enemies.Add(new Snake(new Vector2(100, 400)));
-            Enemy.enemies.Add(new EyeOfChalupa(new Vector2(300, 450)));
+            TiledMapObject[] allEnemies = myMap.GetLayer<TiledMapObjectLayer>("enemies").Objects;
+            foreach (TiledMapObject enemy in allEnemies)
+            {
+                string type;
+                enemy.Properties.TryGetValue("Type", out type);
+
+                if (type == "Snake")
+                {
+                Enemy.enemies.Add(new Snake(enemy.Position));
+                } else if (type == "Eye")
+                {
+                    Enemy.enemies.Add(new EyeOfChalupa(enemy.Position));
+                }
+
+            }
 
             // FOR TESTING -- NOT OK/LONG-TERM
             Obstacle.obstacles.Add(new Bush(new Vector2(500, 100)));
-            Obstacle.obstacles.Add(new Tree(new Vector2(300, 230)));
+            Obstacle.obstacles.Add(new Tree(new Vector2(350, 230)));
         }
 
         protected override void Update(GameTime gameTime)
