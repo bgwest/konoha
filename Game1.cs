@@ -75,11 +75,18 @@ namespace konoha
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            player_Sprite = Content.Load<Texture2D>("player/player");
-            playerUp = Content.Load<Texture2D>("player/playerUp");
-            playerRight = Content.Load<Texture2D>("player/playerRight");
-            playerDown = Content.Load<Texture2D>("player/playerDown");
-            playerLeft = Content.Load<Texture2D>("player/playerLeft");
+            //player_Sprite = Content.Load<Texture2D>("player/player");
+            //playerUp = Content.Load<Texture2D>("player/playerUp");
+            //playerRight = Content.Load<Texture2D>("player/playerRight");
+            //playerDown = Content.Load<Texture2D>("player/playerDown");
+            //playerLeft = Content.Load<Texture2D>("player/playerLeft");
+
+            // TESTING NEW AXE SPRITE SHEETS
+            player_Sprite = Content.Load<Texture2D>("player/withAxe/playerDownWithAxe");
+            playerUp = Content.Load<Texture2D>("player/withAxe/playerUpWithAxe");
+            playerRight = Content.Load<Texture2D>("player/withAxe/playerRightWithAxe");
+            playerDown = Content.Load<Texture2D>("player/withAxe/playerDownWithAxe");
+            playerLeft = Content.Load<Texture2D>("player/withAxe/playerLeftWithAxe");
 
             eyeEnemy_Sprite = Content.Load<Texture2D>("enemies/eyeEnemy");
             snakeEnemy_Sprite = Content.Load<Texture2D>("enemies/snakeEnemy");
