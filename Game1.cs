@@ -31,6 +31,7 @@ namespace konoha
         Texture2D playerRightWithAxe;
 
         Texture2D playerDownWithAxeSwing;
+        Texture2D playerRightWithAxeSwing;
 
         Texture2D eyeEnemy_Sprite;
         Texture2D snakeEnemy_Sprite;
@@ -94,6 +95,7 @@ namespace konoha
 
             // TODO: consider adding more frames? analyze the twitching issue and then decide
             playerDownWithAxeSwing = Content.Load<Texture2D>("player/withAxeSwing/playerDownWithAxeSwing");
+            playerRightWithAxeSwing = Content.Load<Texture2D>("player/withAxeSwing/playerRightWithAxeSwing");
 
             eyeEnemy_Sprite = Content.Load<Texture2D>("enemies/eyeEnemy");
             snakeEnemy_Sprite = Content.Load<Texture2D>("enemies/snakeEnemy");
@@ -120,7 +122,7 @@ namespace konoha
             player.animations[8] = new AnimatedSprite(playerDownWithAxeSwing, 1, 4, 0.1D);
             player.animations[9] = new AnimatedSprite(playerDownWithAxeSwing, 1, 4, 0.1D);
             player.animations[10] = new AnimatedSprite(playerDownWithAxeSwing, 1, 4, 0.1D);
-            player.animations[11] = new AnimatedSprite(playerDownWithAxeSwing, 1, 4, 0.1D);
+            player.animations[11] = new AnimatedSprite(playerRightWithAxeSwing, 1, 4, 0.1D);
 
 
             myMap = Content.Load<TiledMap>("misc/rpgTilesMap");
