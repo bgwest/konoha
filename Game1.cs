@@ -11,7 +11,8 @@ namespace konoha
 {
     enum Dir
     {
-        Up, Down, Left, Right
+        Up, Down, Left, Right,
+        UpWithAxe, DownWithAxe, LeftWithAxe, RightWithAxe
     }
 
     public class Game1 : Game
@@ -19,11 +20,15 @@ namespace konoha
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        Texture2D player_Sprite;
         Texture2D playerDown;
         Texture2D playerUp;
         Texture2D playerLeft;
         Texture2D playerRight;
+
+        Texture2D playerDownWithAxe;
+        Texture2D playerUpWithAxe;
+        Texture2D playerLeftWithAxe;
+        Texture2D playerRightWithAxe;
 
         Texture2D eyeEnemy_Sprite;
         Texture2D snakeEnemy_Sprite;
@@ -75,18 +80,15 @@ namespace konoha
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            //player_Sprite = Content.Load<Texture2D>("player/player");
-            //playerUp = Content.Load<Texture2D>("player/playerUp");
-            //playerRight = Content.Load<Texture2D>("player/playerRight");
-            //playerDown = Content.Load<Texture2D>("player/playerDown");
-            //playerLeft = Content.Load<Texture2D>("player/playerLeft");
+            playerUp = Content.Load<Texture2D>("player/playerUp");
+            playerDown = Content.Load<Texture2D>("player/playerDown");
+            playerRight = Content.Load<Texture2D>("player/playerRight");
+            playerLeft = Content.Load<Texture2D>("player/playerLeft");
 
-            // TESTING NEW AXE SPRITE SHEETS
-            player_Sprite = Content.Load<Texture2D>("player/withAxe/playerDownWithAxe");
-            playerUp = Content.Load<Texture2D>("player/withAxe/playerUpWithAxe");
-            playerRight = Content.Load<Texture2D>("player/withAxe/playerRightWithAxe");
-            playerDown = Content.Load<Texture2D>("player/withAxe/playerDownWithAxe");
-            playerLeft = Content.Load<Texture2D>("player/withAxe/playerLeftWithAxe");
+            playerUpWithAxe = Content.Load<Texture2D>("player/withAxe/playerUpWithAxe");
+            playerRightWithAxe = Content.Load<Texture2D>("player/withAxe/playerRightWithAxe");
+            playerDownWithAxe = Content.Load<Texture2D>("player/withAxe/playerDownWithAxe");
+            playerLeftWithAxe = Content.Load<Texture2D>("player/withAxe/playerLeftWithAxe");
 
             eyeEnemy_Sprite = Content.Load<Texture2D>("enemies/eyeEnemy");
             snakeEnemy_Sprite = Content.Load<Texture2D>("enemies/snakeEnemy");
@@ -101,6 +103,11 @@ namespace konoha
             player.animations[1] = new AnimatedSprite(playerDown, 1, 4);
             player.animations[2] = new AnimatedSprite(playerLeft, 1, 4);
             player.animations[3] = new AnimatedSprite(playerRight, 1, 4);
+
+            player.animations[4] = new AnimatedSprite(playerUpWithAxe, 1, 4);
+            player.animations[5] = new AnimatedSprite(playerDownWithAxe, 1, 4);
+            player.animations[6] = new AnimatedSprite(playerLeftWithAxe, 1, 4);
+            player.animations[7] = new AnimatedSprite(playerRightWithAxe, 1, 4);
 
             myMap = Content.Load<TiledMap>("misc/rpgTilesMap");
 

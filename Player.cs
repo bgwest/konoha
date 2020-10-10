@@ -3,6 +3,11 @@ using Microsoft.Xna.Framework.Input;
 
 namespace konoha
 {
+    enum DirectionTranslationFromBaseDirectionSets
+    {
+      playerWithAxe = 4,
+    }
+
     class Player
     {
         private Vector2 position = new Vector2(100, 100);
@@ -12,10 +17,11 @@ namespace konoha
         private bool isMoving = false;
         private KeyboardState kStateOld = Keyboard.GetState();
         private float healthTimer = 0f;
+        private Keys hotEquipWeaponKey = Keys.A;
 
         public int playerSpriteWidth = 96;
         public AnimatedSprite anim;
-        public AnimatedSprite[] animations = new AnimatedSprite[4];
+        public AnimatedSprite[] animations = new AnimatedSprite[8];
 
         public float HealthTimer
         {
@@ -36,6 +42,8 @@ namespace konoha
         public Player()
         {
         }
+
+
 
         public int Health
         {
@@ -73,13 +81,29 @@ namespace konoha
             KeyboardState kState = Keyboard.GetState();
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
+            Keys[] currentKeysPress = kState.GetPressedKeys();
+
+            bool isEquippingWeapon = false;
+
+            foreach (Keys key in currentKeysPress)
+            {
+                if (key == hotEquipWeaponKey)
+                {
+                    isEquippingWeapon = true;
+                }
+            }
+
             if (healthTimer > 0)
             {
                 healthTimer -= deltaTime;
             }
 
+            int setDirection = (int)direction;
 
-            anim = animations[(int)direction];
+            if (isEquippingWeapon)
+                setDirection += (int)DirectionTranslationFromBaseDirectionSets.playerWithAxe;
+
+            anim = animations[setDirection];
 
             if (isMoving)
                 anim.Update(gameTime);
@@ -98,7 +122,7 @@ namespace konoha
             {
                 isMoving = true;
                 direction = Dir.Down;
-            }
+            } 
 
             if (kState.IsKeyDown(Keys.Left))
             {
