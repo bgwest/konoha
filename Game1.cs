@@ -92,6 +92,7 @@ namespace konoha
             playerDownWithAxe = Content.Load<Texture2D>("player/withAxe/playerDownWithAxe");
             playerLeftWithAxe = Content.Load<Texture2D>("player/withAxe/playerLeftWithAxe");
 
+            // TODO: consider adding more frames? analyze the twitching issue and then decide
             playerDownWithAxeSwing = Content.Load<Texture2D>("player/withAxeSwing/playerDownWithAxeSwing");
 
             eyeEnemy_Sprite = Content.Load<Texture2D>("enemies/eyeEnemy");
@@ -116,10 +117,10 @@ namespace konoha
             player.animations[7] = new AnimatedSprite(playerRightWithAxe, 1, 4, 0.15D);
 
             // WITH AXE + SWING
-            player.animations[8] = new AnimatedSprite(playerDownWithAxeSwing, 1, 5, 0.1D);
-            player.animations[9] = new AnimatedSprite(playerDownWithAxeSwing, 1, 5, 0.1D);
-            player.animations[10] = new AnimatedSprite(playerDownWithAxeSwing, 1, 5, 0.1D);
-            player.animations[11] = new AnimatedSprite(playerDownWithAxeSwing, 1, 5, 0.1D);
+            player.animations[8] = new AnimatedSprite(playerDownWithAxeSwing, 1, 4, 0.1D);
+            player.animations[9] = new AnimatedSprite(playerDownWithAxeSwing, 1, 4, 0.1D);
+            player.animations[10] = new AnimatedSprite(playerDownWithAxeSwing, 1, 4, 0.1D);
+            player.animations[11] = new AnimatedSprite(playerDownWithAxeSwing, 1, 4, 0.1D);
 
 
             myMap = Content.Load<TiledMap>("misc/rpgTilesMap");
@@ -225,7 +226,7 @@ namespace konoha
             _spriteBatch.Begin(transformMatrix: cam.GetViewMatrix());
 
             if (player.Health > 0)
-                player.anim.Draw(_spriteBatch, new Vector2(player.Position.X - (player.playerSpriteWidth / 2), player.Position.Y - (player.playerSpriteWidth / 2)));
+                player.anim.Draw(_spriteBatch, new Vector2(player.Position.X - (player.playerSpriteWidth / 2), player.Position.Y - (player.playerSpriteHeight / 2)));
 
             foreach (Projectile projectile in Projectile.projectiles)
             {

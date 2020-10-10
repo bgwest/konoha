@@ -25,6 +25,7 @@ namespace konoha
         private Keys useEquippedWeaponKey = Keys.S;
 
         public int playerSpriteWidth = 96;
+        public int playerSpriteHeight = 96;
         public AnimatedSprite anim;
         public AnimatedSprite[] animations = new AnimatedSprite[12];
 
@@ -128,7 +129,37 @@ namespace konoha
             int setDirection = (int)direction;
 
             if (weaponEquipped)
+            {
+
                 setDirection += (int)DirectionTranslationFromBaseDirectionSets.playerWithAxe;
+
+                switch (setDirection)
+                {
+                    case (int)Dir.DownWithAxe:
+                        playerSpriteWidth = 98;
+                        playerSpriteHeight = 108;
+                        break;
+                    case (int)Dir.UpWithAxe:
+                        playerSpriteWidth = 98;
+                        playerSpriteHeight = 108;
+                        break;
+                    case (int)Dir.LeftWithAxe:
+                        playerSpriteWidth = 108;
+                        playerSpriteHeight = 107;
+                        break;
+                    case (int)Dir.RightWithAxe:
+                        playerSpriteWidth = 96;
+                        playerSpriteHeight = 107;
+                        break;
+                    default:
+                        // TODO: Error handling
+                        break;
+                }
+            } else
+            {
+                playerSpriteWidth = 96;
+                playerSpriteHeight = 96;
+            }
 
             if (weaponTimer > 0)
             {
@@ -152,6 +183,7 @@ namespace konoha
             if (isMoving || isSwingingWeapon)
                 anim.Update(gameTime);
             else
+                // TODO: Solve the twitches between frames after swinging
                 anim.setFrame(1);
 
             isMoving = false;
