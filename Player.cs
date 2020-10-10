@@ -18,6 +18,7 @@ namespace konoha
         private bool isMoving = false;
         private KeyboardState kStateOld = Keyboard.GetState();
         private float healthTimer = 0f;
+        private float weaponTimer = 0f;
         private Keys hotEquipWeaponKey = Keys.A;
         private Keys useEquippedWeaponKey = Keys.S;
 
@@ -109,12 +110,25 @@ namespace konoha
             if (isEquippingWeapon)
                 setDirection += (int)DirectionTranslationFromBaseDirectionSets.playerWithAxe;
 
-            bool isSwingingWeapon = isEquippingWeapon && isUsingWeapon;
+            if (weaponTimer > 0)
+            {
+                weaponTimer -= deltaTime;
+                setDirection += (int)DirectionTranslationFromBaseDirectionSets.playerUsingAxe;
+            }
+
+            bool isSwingingWeapon = (isEquippingWeapon && isUsingWeapon) || weaponTimer > 0;
 
 
             if (isSwingingWeapon)
-                setDirection += (int)DirectionTranslationFromBaseDirectionSets.playerUsingAxe;
+            {
+                if (weaponTimer <= 0)
+                {
+                  weaponTimer = .3f;
+                  setDirection += (int)DirectionTranslationFromBaseDirectionSets.playerUsingAxe;
+                }
+            }
 
+            // TODO: stacking swings causes this to crash - try button mashing swings or holding down swing to repro
             anim = animations[setDirection];
 
             if (isMoving || isSwingingWeapon)

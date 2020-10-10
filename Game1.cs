@@ -104,41 +104,44 @@ namespace konoha
             heart_Sprite = Content.Load<Texture2D>("misc/heart");
 
             // NO EQUIP
-            player.animations[0] = new AnimatedSprite(playerUp, 1, 4);
-            player.animations[1] = new AnimatedSprite(playerDown, 1, 4);
-            player.animations[2] = new AnimatedSprite(playerLeft, 1, 4);
-            player.animations[3] = new AnimatedSprite(playerRight, 1, 4);
+            player.animations[0] = new AnimatedSprite(playerUp, 1, 4, 0.15D);
+            player.animations[1] = new AnimatedSprite(playerDown, 1, 4, 0.15D);
+            player.animations[2] = new AnimatedSprite(playerLeft, 1, 4, 0.15D);
+            player.animations[3] = new AnimatedSprite(playerRight, 1, 4, 0.15D);
 
             // WITH AXE
-            player.animations[4] = new AnimatedSprite(playerUpWithAxe, 1, 4);
-            player.animations[5] = new AnimatedSprite(playerDownWithAxe, 1, 4);
-            player.animations[6] = new AnimatedSprite(playerLeftWithAxe, 1, 4);
-            player.animations[7] = new AnimatedSprite(playerRightWithAxe, 1, 4);
+            player.animations[4] = new AnimatedSprite(playerUpWithAxe, 1, 4, 0.15D);
+            player.animations[5] = new AnimatedSprite(playerDownWithAxe, 1, 4, 0.15D);
+            player.animations[6] = new AnimatedSprite(playerLeftWithAxe, 1, 4, 0.15D);
+            player.animations[7] = new AnimatedSprite(playerRightWithAxe, 1, 4, 0.15D);
 
             // WITH AXE + SWING
-            player.animations[8] = new AnimatedSprite(playerDownWithAxeSwing, 1, 5);
-            player.animations[9] = new AnimatedSprite(playerDownWithAxeSwing, 1, 5);
-            player.animations[10] = new AnimatedSprite(playerDownWithAxeSwing, 1, 5);
-            player.animations[11] = new AnimatedSprite(playerDownWithAxeSwing, 1, 5);
+            player.animations[8] = new AnimatedSprite(playerDownWithAxeSwing, 1, 5, 0.1D);
+            player.animations[9] = new AnimatedSprite(playerDownWithAxeSwing, 1, 5, 0.1D);
+            player.animations[10] = new AnimatedSprite(playerDownWithAxeSwing, 1, 5, 0.1D);
+            player.animations[11] = new AnimatedSprite(playerDownWithAxeSwing, 1, 5, 0.1D);
 
 
             myMap = Content.Load<TiledMap>("misc/rpgTilesMap");
 
-            TiledMapObject[] allEnemies = myMap.GetLayer<TiledMapObjectLayer>("enemies").Objects;
-            foreach (TiledMapObject enemy in allEnemies)
-            {
-                string type;
-                enemy.Properties.TryGetValue("Type", out type);
+            //
+            // COMMENTING OUT ENEMIES FOR NOW WHILE DEVELOPING THE SWING ANIMATIONS
+            //
+            //TiledMapObject[] allEnemies = myMap.GetLayer<TiledMapObjectLayer>("enemies").Objects;
+            //foreach (TiledMapObject enemy in allEnemies)
+            //{
+            //    string type;
+            //    enemy.Properties.TryGetValue("Type", out type);
 
-                if (type == "Snake")
-                {
-                    Enemy.enemies.Add(new Snake(enemy.Position));
-                } else if (type == "Eye")
-                {
-                    Enemy.enemies.Add(new EyeOfChalupa(enemy.Position));
-                }
+            //    if (type == "Snake")
+            //    {
+            //        Enemy.enemies.Add(new Snake(enemy.Position));
+            //    } else if (type == "Eye")
+            //    {
+            //        Enemy.enemies.Add(new EyeOfChalupa(enemy.Position));
+            //    }
 
-            }
+            //}
 
             TiledMapObject[] allObstacles = myMap.GetLayer<TiledMapObjectLayer>("obstacles").Objects;
             foreach (TiledMapObject obstacle in allObstacles)
