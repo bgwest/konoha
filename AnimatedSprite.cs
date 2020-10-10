@@ -21,6 +21,8 @@ namespace konoha
             Columns = columns;
             currentFrame = 1;
             totalFrames = Rows * Columns;
+            // TODO: Add logic in player class for keyPress to be down "x" amount of time
+            // before invoking walk. should avoid the sliding that is happening currently.
             walkingSpeed = 0.15D;
             timer = walkingSpeed;
         }

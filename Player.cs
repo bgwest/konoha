@@ -6,6 +6,7 @@ namespace konoha
     enum DirectionTranslationFromBaseDirectionSets
     {
       playerWithAxe = 4,
+      playerUsingAxe = 4,
     }
 
     class Player
@@ -18,10 +19,15 @@ namespace konoha
         private KeyboardState kStateOld = Keyboard.GetState();
         private float healthTimer = 0f;
         private Keys hotEquipWeaponKey = Keys.A;
+        private Keys useEquippedWeaponKey = Keys.S;
 
         public int playerSpriteWidth = 96;
         public AnimatedSprite anim;
-        public AnimatedSprite[] animations = new AnimatedSprite[8];
+        public AnimatedSprite[] animations = new AnimatedSprite[12];
+
+        public Player()
+        {
+        }
 
         public float HealthTimer
         {
@@ -38,12 +44,6 @@ namespace konoha
         {
             get { return playerSpriteWidth / 2; }
         }
-
-        public Player()
-        {
-        }
-
-
 
         public int Health
         {
@@ -84,12 +84,18 @@ namespace konoha
             Keys[] currentKeysPress = kState.GetPressedKeys();
 
             bool isEquippingWeapon = false;
+            bool isUsingWeapon = false;
 
             foreach (Keys key in currentKeysPress)
             {
                 if (key == hotEquipWeaponKey)
                 {
                     isEquippingWeapon = true;
+                }
+
+                if (key == useEquippedWeaponKey)
+                {
+                    isUsingWeapon = true;
                 }
             }
 
@@ -103,9 +109,15 @@ namespace konoha
             if (isEquippingWeapon)
                 setDirection += (int)DirectionTranslationFromBaseDirectionSets.playerWithAxe;
 
+            bool isSwingingWeapon = isEquippingWeapon && isUsingWeapon;
+
+
+            if (isSwingingWeapon)
+                setDirection += (int)DirectionTranslationFromBaseDirectionSets.playerUsingAxe;
+
             anim = animations[setDirection];
 
-            if (isMoving)
+            if (isMoving || isSwingingWeapon)
                 anim.Update(gameTime);
             else
                 anim.setFrame(1);

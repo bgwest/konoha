@@ -30,6 +30,8 @@ namespace konoha
         Texture2D playerLeftWithAxe;
         Texture2D playerRightWithAxe;
 
+        Texture2D playerDownWithAxeSwing;
+
         Texture2D eyeEnemy_Sprite;
         Texture2D snakeEnemy_Sprite;
         Texture2D bush_Sprite;
@@ -90,6 +92,8 @@ namespace konoha
             playerDownWithAxe = Content.Load<Texture2D>("player/withAxe/playerDownWithAxe");
             playerLeftWithAxe = Content.Load<Texture2D>("player/withAxe/playerLeftWithAxe");
 
+            playerDownWithAxeSwing = Content.Load<Texture2D>("player/withAxeSwing/playerDownWithAxeSwing");
+
             eyeEnemy_Sprite = Content.Load<Texture2D>("enemies/eyeEnemy");
             snakeEnemy_Sprite = Content.Load<Texture2D>("enemies/snakeEnemy");
 
@@ -99,15 +103,24 @@ namespace konoha
             bullet_Sprite = Content.Load<Texture2D>("misc/bullet");
             heart_Sprite = Content.Load<Texture2D>("misc/heart");
 
+            // NO EQUIP
             player.animations[0] = new AnimatedSprite(playerUp, 1, 4);
             player.animations[1] = new AnimatedSprite(playerDown, 1, 4);
             player.animations[2] = new AnimatedSprite(playerLeft, 1, 4);
             player.animations[3] = new AnimatedSprite(playerRight, 1, 4);
 
+            // WITH AXE
             player.animations[4] = new AnimatedSprite(playerUpWithAxe, 1, 4);
             player.animations[5] = new AnimatedSprite(playerDownWithAxe, 1, 4);
             player.animations[6] = new AnimatedSprite(playerLeftWithAxe, 1, 4);
             player.animations[7] = new AnimatedSprite(playerRightWithAxe, 1, 4);
+
+            // WITH AXE + SWING
+            player.animations[8] = new AnimatedSprite(playerDownWithAxeSwing, 1, 5);
+            player.animations[9] = new AnimatedSprite(playerDownWithAxeSwing, 1, 5);
+            player.animations[10] = new AnimatedSprite(playerDownWithAxeSwing, 1, 5);
+            player.animations[11] = new AnimatedSprite(playerDownWithAxeSwing, 1, 5);
+
 
             myMap = Content.Load<TiledMap>("misc/rpgTilesMap");
 
@@ -119,7 +132,7 @@ namespace konoha
 
                 if (type == "Snake")
                 {
-                Enemy.enemies.Add(new Snake(enemy.Position));
+                    Enemy.enemies.Add(new Snake(enemy.Position));
                 } else if (type == "Eye")
                 {
                     Enemy.enemies.Add(new EyeOfChalupa(enemy.Position));
