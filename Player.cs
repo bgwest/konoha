@@ -16,9 +16,11 @@ namespace konoha
         private int speed = 200;
         private Dir direction = Dir.Down;
         private bool isMoving = false;
+        private bool weaponEquipped = false;
         private KeyboardState kStateOld = Keyboard.GetState();
         private float healthTimer = 0f;
         private float weaponTimer = 0f;
+        private float equipWeaponTimer = 0f;
         private Keys hotEquipWeaponKey = Keys.A;
         private Keys useEquippedWeaponKey = Keys.S;
 
@@ -84,20 +86,38 @@ namespace konoha
 
             Keys[] currentKeysPress = kState.GetPressedKeys();
 
-            bool isEquippingWeapon = false;
             bool isUsingWeapon = false;
 
             foreach (Keys key in currentKeysPress)
             {
-                if (key == hotEquipWeaponKey)
+
+                if (equipWeaponTimer <= 0 )
                 {
-                    isEquippingWeapon = true;
+                    if (key == hotEquipWeaponKey)
+                    {
+                        equipWeaponTimer = .2f;
+
+                        if (weaponEquipped)
+                        {
+                            weaponEquipped = false;
+                        }
+                        else
+                        {
+                            weaponEquipped = true;
+                        }
+                    }
+
                 }
 
                 if (key == useEquippedWeaponKey)
                 {
                     isUsingWeapon = true;
                 }
+            }
+
+            if (equipWeaponTimer > 0)
+            {
+                equipWeaponTimer -= deltaTime;
             }
 
             if (healthTimer > 0)
@@ -107,7 +127,7 @@ namespace konoha
 
             int setDirection = (int)direction;
 
-            if (isEquippingWeapon)
+            if (weaponEquipped)
                 setDirection += (int)DirectionTranslationFromBaseDirectionSets.playerWithAxe;
 
             if (weaponTimer > 0)
@@ -116,7 +136,7 @@ namespace konoha
                 setDirection += (int)DirectionTranslationFromBaseDirectionSets.playerUsingAxe;
             }
 
-            bool isSwingingWeapon = (isEquippingWeapon && isUsingWeapon) || weaponTimer > 0;
+            bool isSwingingWeapon = (weaponEquipped && isUsingWeapon) || weaponTimer > 0;
 
 
             if (isSwingingWeapon)
