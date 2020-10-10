@@ -124,11 +124,9 @@ namespace konoha
                 if (weaponTimer <= 0)
                 {
                   weaponTimer = .3f;
-                  setDirection += (int)DirectionTranslationFromBaseDirectionSets.playerUsingAxe;
                 }
             }
 
-            // TODO: stacking swings causes this to crash - try button mashing swings or holding down swing to repro
             anim = animations[setDirection];
 
             if (isMoving || isSwingingWeapon)
