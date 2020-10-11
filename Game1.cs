@@ -123,7 +123,7 @@ namespace konoha
             player.animations[7] = new AnimatedSprite(playerRightWithAxe, 1, 4, 0.15D);
 
             // WITH AXE + SWING
-            player.animations[8] = new AnimatedSprite(playerUpWithAxeSwing, 1, 5, 0.1D);
+            player.animations[8] = new AnimatedSprite(playerUpWithAxeSwing, 1, 4, 0.1D);
             player.animations[9] = new AnimatedSprite(playerDownWithAxeSwing, 1, 4, 0.1D);
             player.animations[10] = new AnimatedSprite(playerLeftWithAxeSwing, 1, 4, 0.065D);
             player.animations[11] = new AnimatedSprite(playerRightWithAxeSwing, 1, 4, 0.065D);
