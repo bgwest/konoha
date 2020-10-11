@@ -12,17 +12,19 @@ namespace konoha
         private int currentFrame;
         private int totalFrames;
         private double timer;
-        private double walkingSpeed;
+        private double animationSpeed;
 
-        public AnimatedSprite(Texture2D texture, int rows, int columns)
+        public AnimatedSprite(Texture2D texture, int rows, int columns, double speed)
         {
             Texture = texture;
             Rows = rows;
             Columns = columns;
             currentFrame = 1;
             totalFrames = Rows * Columns;
-            walkingSpeed = 0.15D;
-            timer = walkingSpeed;
+            // TODO: Add logic in player class for keyPress to be down "x" amount of time
+            // before invoking walk. should avoid the sliding that is happening currently.
+            animationSpeed = speed;
+            timer = animationSpeed;
         }
 
         public void Update(GameTime gameTime)
@@ -35,7 +37,7 @@ namespace konoha
             if (timer <= 0)
             {
               currentFrame++;
-              timer = walkingSpeed;
+              timer = animationSpeed;
             }
 
             if (currentFrame == totalFrames)

@@ -3,6 +3,12 @@ using Microsoft.Xna.Framework.Input;
 
 namespace konoha
 {
+    enum DirectionTranslationFromBaseDirectionSets
+    {
+      playerWithAxe = 4,
+      playerUsingAxe = 4,
+    }
+
     class Player
     {
         private Vector2 position = new Vector2(100, 100);
@@ -10,12 +16,22 @@ namespace konoha
         private int speed = 200;
         private Dir direction = Dir.Down;
         private bool isMoving = false;
+        private bool weaponEquipped = false;
         private KeyboardState kStateOld = Keyboard.GetState();
         private float healthTimer = 0f;
+        private float weaponTimer = 0f;
+        private float equipWeaponTimer = 0f;
+        private Keys hotEquipWeaponKey = Keys.A;
+        private Keys useEquippedWeaponKey = Keys.S;
 
         public int playerSpriteWidth = 96;
+        public int playerSpriteHeight = 96;
         public AnimatedSprite anim;
-        public AnimatedSprite[] animations = new AnimatedSprite[4];
+        public AnimatedSprite[] animations = new AnimatedSprite[12];
+
+        public Player()
+        {
+        }
 
         public float HealthTimer
         {
@@ -31,10 +47,6 @@ namespace konoha
         public int Radius
         {
             get { return playerSpriteWidth / 2; }
-        }
-
-        public Player()
-        {
         }
 
         public int Health
@@ -73,17 +85,106 @@ namespace konoha
             KeyboardState kState = Keyboard.GetState();
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
+            Keys[] currentKeysPress = kState.GetPressedKeys();
+
+            bool isUsingWeapon = false;
+
+            foreach (Keys key in currentKeysPress)
+            {
+
+                if (equipWeaponTimer <= 0 )
+                {
+                    if (key == hotEquipWeaponKey)
+                    {
+                        equipWeaponTimer = .2f;
+
+                        if (weaponEquipped)
+                        {
+                            weaponEquipped = false;
+                        }
+                        else
+                        {
+                            weaponEquipped = true;
+                        }
+                    }
+
+                }
+
+                if (key == useEquippedWeaponKey)
+                {
+                    isUsingWeapon = true;
+                }
+            }
+
+            if (equipWeaponTimer > 0)
+            {
+                equipWeaponTimer -= deltaTime;
+            }
+
             if (healthTimer > 0)
             {
                 healthTimer -= deltaTime;
             }
 
+            int setDirection = (int)direction;
 
-            anim = animations[(int)direction];
+            if (weaponEquipped)
+            {
 
-            if (isMoving)
+                setDirection += (int)DirectionTranslationFromBaseDirectionSets.playerWithAxe;
+
+                switch (setDirection)
+                {
+                    case (int)Dir.DownWithAxe:
+                        playerSpriteWidth = 98;
+                        playerSpriteHeight = 108;
+                        break;
+                    case (int)Dir.UpWithAxe:
+                        playerSpriteWidth = 98;
+                        playerSpriteHeight = 108;
+                        break;
+                    case (int)Dir.LeftWithAxe:
+                        playerSpriteWidth = 108;
+                        playerSpriteHeight = 107;
+                        break;
+                    case (int)Dir.RightWithAxe:
+                        playerSpriteWidth = 96;
+                        playerSpriteHeight = 107;
+                        break;
+                    default:
+                        // TODO: Error handling
+                        break;
+                }
+            } else
+            {
+                weaponTimer = 0;
+                playerSpriteWidth = 96;
+                playerSpriteHeight = 96;
+            }
+
+            if (weaponTimer > 0)
+            {
+                weaponTimer -= deltaTime;
+                setDirection += (int)DirectionTranslationFromBaseDirectionSets.playerUsingAxe;
+            }
+
+            bool isSwingingWeapon = (weaponEquipped && isUsingWeapon) || weaponTimer > 0;
+
+
+            if (isSwingingWeapon)
+            {
+                if (weaponTimer <= 0)
+                {
+                  weaponTimer = .3f;
+                }
+            }
+
+            anim = animations[setDirection];
+
+            if (isMoving || isSwingingWeapon)
                 anim.Update(gameTime);
             else
+                // TODO: Solve the twitches between frames after swinging
                 anim.setFrame(1);
 
             isMoving = false;
@@ -98,7 +199,7 @@ namespace konoha
             {
                 isMoving = true;
                 direction = Dir.Down;
-            }
+            } 
 
             if (kState.IsKeyDown(Keys.Left))
             {

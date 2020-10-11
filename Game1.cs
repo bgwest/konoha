@@ -11,7 +11,8 @@ namespace konoha
 {
     enum Dir
     {
-        Up, Down, Left, Right
+        Up, Down, Left, Right,
+        UpWithAxe, DownWithAxe, LeftWithAxe, RightWithAxe
     }
 
     public class Game1 : Game
@@ -19,11 +20,20 @@ namespace konoha
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        Texture2D player_Sprite;
         Texture2D playerDown;
         Texture2D playerUp;
         Texture2D playerLeft;
         Texture2D playerRight;
+
+        Texture2D playerDownWithAxe;
+        Texture2D playerUpWithAxe;
+        Texture2D playerLeftWithAxe;
+        Texture2D playerRightWithAxe;
+
+        Texture2D playerDownWithAxeSwing;
+        Texture2D playerRightWithAxeSwing;
+        Texture2D playerLeftWithAxeSwing;
+        Texture2D playerUpWithAxeSwing;
 
         Texture2D eyeEnemy_Sprite;
         Texture2D snakeEnemy_Sprite;
@@ -75,11 +85,21 @@ namespace konoha
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            player_Sprite = Content.Load<Texture2D>("player/player");
             playerUp = Content.Load<Texture2D>("player/playerUp");
-            playerRight = Content.Load<Texture2D>("player/playerRight");
             playerDown = Content.Load<Texture2D>("player/playerDown");
             playerLeft = Content.Load<Texture2D>("player/playerLeft");
+            playerRight = Content.Load<Texture2D>("player/playerRight");
+
+            playerUpWithAxe = Content.Load<Texture2D>("player/withAxe/playerUpWithAxe");
+            playerDownWithAxe = Content.Load<Texture2D>("player/withAxe/playerDownWithAxe");
+            playerLeftWithAxe = Content.Load<Texture2D>("player/withAxe/playerLeftWithAxe");
+            playerRightWithAxe = Content.Load<Texture2D>("player/withAxe/playerRightWithAxe");
+
+            // TODO: consider adding more frames? analyze the twitching issue and then decide
+            playerUpWithAxeSwing = Content.Load<Texture2D>("player/withAxeSwing/playerUpWithAxeSwing");
+            playerDownWithAxeSwing = Content.Load<Texture2D>("player/withAxeSwing/playerDownWithAxeSwing");
+            playerLeftWithAxeSwing = Content.Load<Texture2D>("player/withAxeSwing/playerLeftWithAxeSwing");
+            playerRightWithAxeSwing = Content.Load<Texture2D>("player/withAxeSwing/playerRightWithAxeSwing");
 
             eyeEnemy_Sprite = Content.Load<Texture2D>("enemies/eyeEnemy");
             snakeEnemy_Sprite = Content.Load<Texture2D>("enemies/snakeEnemy");
@@ -90,28 +110,45 @@ namespace konoha
             bullet_Sprite = Content.Load<Texture2D>("misc/bullet");
             heart_Sprite = Content.Load<Texture2D>("misc/heart");
 
-            player.animations[0] = new AnimatedSprite(playerUp, 1, 4);
-            player.animations[1] = new AnimatedSprite(playerDown, 1, 4);
-            player.animations[2] = new AnimatedSprite(playerLeft, 1, 4);
-            player.animations[3] = new AnimatedSprite(playerRight, 1, 4);
+            // NO EQUIP
+            player.animations[0] = new AnimatedSprite(playerUp, 1, 4, 0.15D);
+            player.animations[1] = new AnimatedSprite(playerDown, 1, 4, 0.15D);
+            player.animations[2] = new AnimatedSprite(playerLeft, 1, 4, 0.15D);
+            player.animations[3] = new AnimatedSprite(playerRight, 1, 4, 0.15D);
+
+            // WITH AXE
+            player.animations[4] = new AnimatedSprite(playerUpWithAxe, 1, 4, 0.15D);
+            player.animations[5] = new AnimatedSprite(playerDownWithAxe, 1, 4, 0.15D);
+            player.animations[6] = new AnimatedSprite(playerLeftWithAxe, 1, 4, 0.15D);
+            player.animations[7] = new AnimatedSprite(playerRightWithAxe, 1, 4, 0.15D);
+
+            // WITH AXE + SWING
+            player.animations[8] = new AnimatedSprite(playerUpWithAxeSwing, 1, 4, 0.065D);
+            player.animations[9] = new AnimatedSprite(playerDownWithAxeSwing, 1, 4, 0.1D);
+            player.animations[10] = new AnimatedSprite(playerLeftWithAxeSwing, 1, 4, 0.065D);
+            player.animations[11] = new AnimatedSprite(playerRightWithAxeSwing, 1, 4, 0.065D);
+
 
             myMap = Content.Load<TiledMap>("misc/rpgTilesMap");
 
-            TiledMapObject[] allEnemies = myMap.GetLayer<TiledMapObjectLayer>("enemies").Objects;
-            foreach (TiledMapObject enemy in allEnemies)
-            {
-                string type;
-                enemy.Properties.TryGetValue("Type", out type);
+            //
+            // COMMENTING OUT ENEMIES FOR NOW WHILE DEVELOPING THE SWING ANIMATIONS
+            //
+            //TiledMapObject[] allEnemies = myMap.GetLayer<TiledMapObjectLayer>("enemies").Objects;
+            //foreach (TiledMapObject enemy in allEnemies)
+            //{
+            //    string type;
+            //    enemy.Properties.TryGetValue("Type", out type);
 
-                if (type == "Snake")
-                {
-                Enemy.enemies.Add(new Snake(enemy.Position));
-                } else if (type == "Eye")
-                {
-                    Enemy.enemies.Add(new EyeOfChalupa(enemy.Position));
-                }
+            //    if (type == "Snake")
+            //    {
+            //        Enemy.enemies.Add(new Snake(enemy.Position));
+            //    } else if (type == "Eye")
+            //    {
+            //        Enemy.enemies.Add(new EyeOfChalupa(enemy.Position));
+            //    }
 
-            }
+            //}
 
             TiledMapObject[] allObstacles = myMap.GetLayer<TiledMapObjectLayer>("obstacles").Objects;
             foreach (TiledMapObject obstacle in allObstacles)
@@ -195,7 +232,7 @@ namespace konoha
             _spriteBatch.Begin(transformMatrix: cam.GetViewMatrix());
 
             if (player.Health > 0)
-                player.anim.Draw(_spriteBatch, new Vector2(player.Position.X - (player.playerSpriteWidth / 2), player.Position.Y - (player.playerSpriteWidth / 2)));
+                player.anim.Draw(_spriteBatch, new Vector2(player.Position.X - (player.playerSpriteWidth / 2), player.Position.Y - (player.playerSpriteHeight / 2)));
 
             foreach (Projectile projectile in Projectile.projectiles)
             {
