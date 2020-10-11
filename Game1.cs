@@ -122,7 +122,7 @@ namespace konoha
             player.animations[8] = new AnimatedSprite(playerDownWithAxeSwing, 1, 4, 0.1D);
             player.animations[9] = new AnimatedSprite(playerDownWithAxeSwing, 1, 4, 0.1D);
             player.animations[10] = new AnimatedSprite(playerDownWithAxeSwing, 1, 4, 0.1D);
-            player.animations[11] = new AnimatedSprite(playerRightWithAxeSwing, 1, 4, 0.1D);
+            player.animations[11] = new AnimatedSprite(playerRightWithAxeSwing, 1, 4, 0.065D);
 
 
             myMap = Content.Load<TiledMap>("misc/rpgTilesMap");
