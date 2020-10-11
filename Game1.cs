@@ -32,6 +32,8 @@ namespace konoha
 
         Texture2D playerDownWithAxeSwing;
         Texture2D playerRightWithAxeSwing;
+        Texture2D playerLeftWithAxeSwing;
+        Texture2D playerUpWithAxeSwing;
 
         Texture2D eyeEnemy_Sprite;
         Texture2D snakeEnemy_Sprite;
@@ -85,16 +87,18 @@ namespace konoha
 
             playerUp = Content.Load<Texture2D>("player/playerUp");
             playerDown = Content.Load<Texture2D>("player/playerDown");
-            playerRight = Content.Load<Texture2D>("player/playerRight");
             playerLeft = Content.Load<Texture2D>("player/playerLeft");
+            playerRight = Content.Load<Texture2D>("player/playerRight");
 
             playerUpWithAxe = Content.Load<Texture2D>("player/withAxe/playerUpWithAxe");
-            playerRightWithAxe = Content.Load<Texture2D>("player/withAxe/playerRightWithAxe");
             playerDownWithAxe = Content.Load<Texture2D>("player/withAxe/playerDownWithAxe");
             playerLeftWithAxe = Content.Load<Texture2D>("player/withAxe/playerLeftWithAxe");
+            playerRightWithAxe = Content.Load<Texture2D>("player/withAxe/playerRightWithAxe");
 
             // TODO: consider adding more frames? analyze the twitching issue and then decide
+            playerUpWithAxeSwing = Content.Load<Texture2D>("player/withAxeSwing/playerUpWithAxeSwing");
             playerDownWithAxeSwing = Content.Load<Texture2D>("player/withAxeSwing/playerDownWithAxeSwing");
+            playerLeftWithAxeSwing = Content.Load<Texture2D>("player/withAxeSwing/playerLeftWithAxeSwing");
             playerRightWithAxeSwing = Content.Load<Texture2D>("player/withAxeSwing/playerRightWithAxeSwing");
 
             eyeEnemy_Sprite = Content.Load<Texture2D>("enemies/eyeEnemy");
@@ -119,9 +123,9 @@ namespace konoha
             player.animations[7] = new AnimatedSprite(playerRightWithAxe, 1, 4, 0.15D);
 
             // WITH AXE + SWING
-            player.animations[8] = new AnimatedSprite(playerDownWithAxeSwing, 1, 4, 0.1D);
+            player.animations[8] = new AnimatedSprite(playerUpWithAxeSwing, 1, 5, 0.1D);
             player.animations[9] = new AnimatedSprite(playerDownWithAxeSwing, 1, 4, 0.1D);
-            player.animations[10] = new AnimatedSprite(playerDownWithAxeSwing, 1, 4, 0.1D);
+            player.animations[10] = new AnimatedSprite(playerLeftWithAxeSwing, 1, 4, 0.065D);
             player.animations[11] = new AnimatedSprite(playerRightWithAxeSwing, 1, 4, 0.065D);
 
 
