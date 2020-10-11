@@ -157,6 +157,7 @@ namespace konoha
                 }
             } else
             {
+                weaponTimer = 0;
                 playerSpriteWidth = 96;
                 playerSpriteHeight = 96;
             }
